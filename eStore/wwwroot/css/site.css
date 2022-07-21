@@ -16,3 +16,30 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.nav-link {
+    color: black;
+}
+
+.nav-item{
+    padding-left: 2rem;
+}
+
+.active {
+    text-decoration: underline;
+    color: orange;
+}
+
+.short{
+    max-width: 5em;
+    line-height: 1em;
+    margin: 0;
+}
+
+.long-hr{
+    width: 100%;
+}
+
+.form-item {
+    margin-right: 11rem;
+}

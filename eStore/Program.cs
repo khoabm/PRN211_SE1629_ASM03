@@ -1,9 +1,10 @@
 using BusinessObject.DataAccess;
+using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container.    
 builder.Services.AddControllersWithViews();
 //ADD DBCONTEXT
 builder.Services.AddDbContext<FStoreContext>(options => options.UseSqlServer(
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<FStoreContext>(options => options.UseSqlServer(
     ));
 //ADD SCOPED DBCONTEXT
 builder.Services.AddScoped(typeof(FStoreContext));
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 var app = builder.Build();
 
@@ -32,5 +35,4 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();
