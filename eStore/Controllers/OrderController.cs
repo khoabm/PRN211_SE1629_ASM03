@@ -144,8 +144,10 @@ namespace eStore.Controllers
                 return View();
             }
         }
+      
+
         [HttpPost]
-        public ActionResult Report(DateTime start,DateTime end)
+        public ActionResult Report(DateTime start, DateTime end)
         {
             try
             {
@@ -154,9 +156,9 @@ namespace eStore.Controllers
                 ViewData["end"] = end.ToShortDateString();
                 return View(dict);
             }
-            catch(Exception ex)
+            catch
             {
-                throw new Exception(ex.Message);
+                return RedirectToAction(nameof(Index));
             }
         }
     }
