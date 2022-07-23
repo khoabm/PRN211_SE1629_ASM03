@@ -18,32 +18,66 @@ namespace eStore.Controllers
         // GET: ProductController
         public ActionResult Index(string searchString)
         {
-            var products = _productRepository.GetProducts();
-            if (!String.IsNullOrEmpty(searchString))
+            object session = HttpContext.Session.GetInt32("user");
+            if (session == null)
+                return RedirectToAction("Login", "Home");
+            else
             {
-                products = _productRepository.Search(searchString);
+                int memberID = (int)session;
+                if (memberID != 0)
+                {
+                    ViewBag.Error = "You don't have access to this action";
+                    return View();
+                }
             }
-            return View(products);
+
+            try
+            {
+                List<Product> lst = (List<Product>)_productRepository.GetProducts();
+                return View(lst);
+            }
+            catch
+            {
+                ViewBag.Error = "Error loading products";
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // GET: ProductController/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            int login = CheckLogin();
+            if (login == -1)
+                return RedirectToAction("Login", "Home");
+            if (login == 0)
             {
-                return NotFound();
+                ViewBag.Error = "You don't have access to this action";
+                return View();
             }
-            var product = _productRepository.GetById(id.Value);
-            if (product == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                    return NotFound();
+                Product pro = _productRepository.GetById(id.Value);
+                return View(pro);
             }
-            return View(product);
+            catch
+            {
+                ViewBag.Error = "Error loading product";
+                return View();
+            }
         }
 
         // GET: ProductController/Create
         public ActionResult Create()
         {
+            var session = HttpContext.Session.GetInt32("user");
+            if (session == null)
+                return RedirectToAction("Login", "Home");
+            if (session != 0)
+                return RedirectToAction("Index", "Home");
+            int maxID = _productRepository.GetProducts().Max(pro => pro.ProductId) + 1;
+            ViewData["proID"] = maxID;
             return View();
         }
 
@@ -136,6 +170,15 @@ namespace eStore.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             return View();
+        }
+        public int CheckLogin()
+        {
+            var session = HttpContext.Session.GetInt32("user");
+            if (session == null)
+                return -1;
+            if (session != 0)
+                return 0;
+            return 1;
         }
     }
 }
