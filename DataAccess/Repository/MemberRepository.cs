@@ -21,7 +21,6 @@ namespace DataAccess.Repository
 
         public void Update(Member member) => MemberDAO.Instance.Update(member);
 
-        public Member login(string email, string pass) => MemberDAO.Instance.login(email, pass);
-
+        public Member checkLogin(string email, string pass) => MemberDAO.Instance.checkLogin(email, pass);
     }
 }

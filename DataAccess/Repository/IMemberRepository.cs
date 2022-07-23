@@ -15,6 +15,7 @@ namespace DataAccess.Repository
         int GetLatestID();
         public void Add(Member member);
         void Update(Member member);
-        public Member login(string email, string pass);
+        Member checkLogin(string email, string pass);
+
     }
 }

@@ -110,19 +110,26 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
-        public Member login(string email, string pass)
+        
+        public Member checkLogin(string email, string pass)
         {
-            Member member = null;
             try
             {
-                using FStoreContext context = new FStoreContext();
-                member = context.Members.SingleOrDefault(m => m.Email == email && m.Password == pass);
+                using FStoreContext  context = new FStoreContext();
+                Member admin = context.Admin();
+                if (admin.Email.Equals(email) && admin.Password.Equals(pass))
+                {
+                    return admin;
+                }
+                var query = (from mem in context.Members.ToList()
+                             where mem.Email.Equals(email) && mem.Password.Equals(pass)
+                             select mem).SingleOrDefault();
+                return query;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return member;
         }
     }
 }

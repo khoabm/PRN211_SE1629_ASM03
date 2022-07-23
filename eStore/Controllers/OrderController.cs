@@ -120,5 +120,20 @@ namespace eStore.Controllers
                 return View();
             }
         }
+        [HttpPost]
+        public ActionResult Report(DateTime start,DateTime end)
+        {
+            try
+            {
+                Dictionary<Order, double> dict = _repository.GetOrdersByDate(start, end);
+                ViewData["start"] = start.ToShortDateString();
+                ViewData["end"] = end.ToShortDateString();
+                return View(dict);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

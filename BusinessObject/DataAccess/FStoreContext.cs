@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessObject.DataAccess
 {
@@ -28,7 +29,19 @@ namespace BusinessObject.DataAccess
                 optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=123456789;database=FStore;TrustServerCertificate=True");
             }
         }
-
+        public Member Admin()
+        {
+            IConfiguration conifg = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .Build(); 
+            var adminEmail = conifg["Admin:Email"];
+            var adminPassword = conifg["Admin:Password"];
+            Member admin = new Member();
+            admin.Email = adminEmail;
+            admin.Password = adminPassword;
+            return admin;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Member>(entity =>
