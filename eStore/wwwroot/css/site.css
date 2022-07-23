@@ -64,8 +64,13 @@ a:hover {
      transform-origin: left top;
 }
 
-    a:hover .header-tag {
+a:hover .header-tag {
         background-color: #333;
         color: #fff;
         transition: ease-in-out 0.4s;
-    }
+}
+
+.header-navigate {
+        display: flex;
+        justify-content: space-between;
+}
