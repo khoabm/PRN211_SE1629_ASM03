@@ -15,6 +15,8 @@ namespace eStore.Controllers
 
         public IActionResult Index()
         {
+            int? userId = (int?)HttpContext.Session.GetInt32("user");
+            ViewBag.UserId = userId;
             return View();
         }
 
