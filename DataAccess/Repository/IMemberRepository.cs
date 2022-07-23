@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObject.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace DataAccess.Repository
 {
     public interface IMemberRepository
     {
+        Member checkLogin(string email, string pass);
     }
 }

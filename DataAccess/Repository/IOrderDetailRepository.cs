@@ -17,6 +17,6 @@ namespace DataAccess.Repository
         string? GetProductName(int productId);
         OrderDetail GetOrderDetailByIDByProductID(int v1, int v2);
         void Update(OrderDetail orderDetail);
-        //IEnumerable<SaleReport> GetSaleReports(DateTime startDate, DateTime EndDate);
+        
     }
 }

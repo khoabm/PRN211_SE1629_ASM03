@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObject.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repository
 {
-    public class MemberRepository
+    public class MemberRepository : IMemberRepository
     {
+        public Member checkLogin(string email, string pass) => MemberDAO.Instance.checkLogin(email, pass);
+        
     }
 }
