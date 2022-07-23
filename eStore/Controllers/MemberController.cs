@@ -23,6 +23,16 @@ namespace eStore.Controllers
         // GET: MemberController/Details/5
         public ActionResult Details(int id)
         {
+            int loggedIn = CheckLogin();
+            if(loggedIn == -1)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (HttpContext.Session.GetInt32("user").Value != id)
+            {
+                ViewBag.Error = "you can not see infor of other member";
+                return View();
+            }
             Member member = _memberRepository.GetMemberById(id);
             return View(member);
         }
@@ -30,6 +40,16 @@ namespace eStore.Controllers
         // GET: MemberController/Create
         public ActionResult Create()
         {
+            int loggedIn = CheckLogin();
+            if (loggedIn == -1)
+                return RedirectToAction("Login", "Home");
+            if (loggedIn == 0)
+            {
+                ViewBag.Error = "You don't have access to this action";
+                return View();
+            }
+            int memberID = _memberRepository.GetMembers().Max(m => m.MemberId) + 1;
+            ViewData["id"] = memberID;
             return View();
         }
 
@@ -56,6 +76,16 @@ namespace eStore.Controllers
         // GET: MemberController/Edit/5
         public ActionResult Edit(int id)
         {
+            int loggedIn = CheckLogin();
+            if(loggedIn == -1)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if(HttpContext.Session.GetInt32("user").Value != id)
+            {
+                ViewBag.Error = "you can not see infor of other member";
+                return View();
+            }
             var member = _memberRepository.GetMemberById(id);
             if (member != null)
                 return View(member);
@@ -65,10 +95,14 @@ namespace eStore.Controllers
         // POST: MemberController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Member member)
+        public ActionResult Edit(int id,Member member)
         {
             try
             {
+                if(id != member.MemberId)
+                {
+                    return NotFound();
+                }
                 if (ModelState.IsValid)
                 {
                     _memberRepository.Update(member);
@@ -107,6 +141,19 @@ namespace eStore.Controllers
             {
                 return View();
             }
+        }
+        public int CheckLogin()
+        {
+            var session = HttpContext.Session.GetInt32("user");
+            if(session == null)
+            {
+                return -1;
+            }
+            if(session != 0)
+            {
+                return 0;
+            }
+            return 1;
         }
     }
 }
