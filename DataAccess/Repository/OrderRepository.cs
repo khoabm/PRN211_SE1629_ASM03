@@ -19,6 +19,9 @@ namespace DataAccess.Repository
 
         public IEnumerable<Order> GetOrders() => OrderDAO.Instance.GetOrders();
 
+        public Dictionary<Order, double> GetOrdersByDate(DateTime start, DateTime end) => OrderDAO.Instance.GetOrdersByDate(start, end);
+        
+
         public void UpdateOrder(Order order) => OrderDAO.Instance.UpdateOrder(order);
     }
 }

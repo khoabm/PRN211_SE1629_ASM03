@@ -16,23 +16,44 @@ namespace eStore.Controllers
         // GET: OrderController
         public ActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("user") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            int memberID = (int)HttpContext.Session.GetInt32("user");
+            if (memberID != 0)
+            {
+                ViewBag.Error = "You don't have access to this action";
+                return View();
+            }
+            ViewBag.user = HttpContext.Session.GetInt32("user");
             var orders = _repository.GetOrders();
             return View(orders);
         }
 
         // GET: OrderController/Details/5
-        public ActionResult Details(int id = 0)
+        public ActionResult Details(int id )
         {
-            if (id == 0)
+            try
             {
-                return NotFound();
+                Order order = _repository.GetOrderById(id);
+                if(HttpContext.Session.GetInt32("user") == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                int memberID = (int)HttpContext.Session.GetInt32("user");
+                if(memberID != order.MemberId && memberID != 0)
+                {
+                    ViewBag.Error = " you dont have permission to view this order";
+                    return View();
+                }
+                return View(order);
             }
-            var order = _repository.GetOrderById(id);
-            if (order == null)
+            catch 
             {
-                return NotFound();
+
             }
-            return View(order);
+            return View();
         }
 
         // GET: OrderController/Create
@@ -121,6 +142,21 @@ namespace eStore.Controllers
             {
                 ViewBag.Message = ex.Message;
                 return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult Report(DateTime start,DateTime end)
+        {
+            try
+            {
+                Dictionary<Order, double> dict = _repository.GetOrdersByDate(start, end);
+                ViewData["start"] = start.ToShortDateString();
+                ViewData["end"] = end.ToShortDateString();
+                return View(dict);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

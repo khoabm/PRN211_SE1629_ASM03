@@ -1,0 +1,34 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+    <body>
+        <h1 class="text-center p-3">Login</h1>
+        <div class="w-75 mx-auto">
+            <h2>@ViewBag.Message</h2>
+            <div class="w-75 mx-auto shadow p-3">
+                <form asp-action="Login">
+                    <div class="form-group">
+                        <label class="col-form-label" for="email">Email</label>
+                        <input type="text" class="form-control" name="email" id="email" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label" for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="Login" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

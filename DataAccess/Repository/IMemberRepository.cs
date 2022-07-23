@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObject.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,13 @@ namespace DataAccess.Repository
 {
     public interface IMemberRepository
     {
+        List<Member> GetMembers();
+        void Delete(Member member);
+        Member GetMemberById(int? v);
+        int GetLatestID();
+        public void Add(Member member);
+        void Update(Member member);
+        Member checkLogin(string email, string pass);
+
     }
 }

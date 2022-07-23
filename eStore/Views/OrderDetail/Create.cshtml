@@ -8,16 +8,13 @@
 <h1>Create</h1>
 
 <h4>OrderDetail</h4>
+
+<h4>@ViewBag.Message</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="OrderId" class="control-label"></label>
-                <input asp-for="OrderId" class="form-control" />
-                <span asp-validation-for="OrderId" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="ProductId" class="control-label"></label>
                 <input asp-for="ProductId" class="form-control" />
@@ -46,7 +43,9 @@
 </div>
 
 <div>
+
     <a asp-action="Index">Back to List</a>
+
 </div>
 
 @section Scripts {

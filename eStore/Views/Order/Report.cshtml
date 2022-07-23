@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using BusinessObject.DataAccess;
+@model Dictionary<Order, double>
+
+@{
+    ViewData["Title"] = "OrderList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Sales Report</h1>
+<h3>From @ViewData["start"] To @ViewData["end"]</h3>
+<table class="table table-bordered">
+    <thead class="table-danger">
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Required Date</th>
+            <th>Shipped Date</th>
+            <th>Member ID</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody class="table-hover">
+        @{
+            foreach (KeyValuePair<Order, double> item in Model)
+            {
+                <tr>
+                    <td>@item.Key.OrderId</td>
+                    <td>@item.Key.OrderDate</td>
+                    <td>@item.Key.RequiredDate</td>
+                    <td>@item.Key.ShippedDate</td>
+                    <td>@item.Key.MemberId</td>
+                    <td>@item.Value</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Key.OrderId">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<a asp-action="Index">Go back</a>
+
