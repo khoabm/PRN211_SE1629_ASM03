@@ -47,6 +47,24 @@ namespace DataAccess
             return orders;
         }
 
+
+        public IEnumerable<OrderDetail> GetOrdersDetail()
+        {
+            IList<OrderDetail> orders = new List<OrderDetail>();
+
+            try
+            {
+                using FStoreContext context = new FStoreContext();
+                orders = context.OrderDetails.ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+            return orders;
+        }
+
         public void Update(OrderDetail orderDetail)
         {
             try

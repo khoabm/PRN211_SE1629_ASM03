@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1 class="pb-2">Details</h1>
 
 <div>
     <h4>Order</h4>
@@ -50,9 +50,9 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ id = Model.OrderId }) |
-    <a asp-action="Index">Back to List</a> |
-    <a asp-controller="OrderDetail"
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ id = Model.OrderId }, new {@class = "btn btn-primary"}) |
+    <a class="btn btn-success" asp-action="Index">Back to List</a> |
+    <a class="btn btn-secondary" asp-controller="OrderDetail"
        asp-action="OrderDetails"
        asp-route-id="@Model.OrderId">Order detail of order: @Model.OrderId</a>
 </div>

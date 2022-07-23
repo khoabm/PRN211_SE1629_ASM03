@@ -1,13 +1,16 @@
 ﻿@model IEnumerable<BusinessObject.DataAccess.OrderDetail>
 
 @{
-    ViewData["Title"] = "OrderDetails";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>OrderDetails</h1>
+<h1>Order Detail</h1>
 
-<table class="table">
+<p>
+    <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus-circle"></i> Create New</a>
+</p>
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>
@@ -47,9 +50,9 @@
                 @Html.DisplayFor(modelItem => item.Discount)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ orderId = item.OrderId, productId = item.ProductId }, new {@class = "btn btn-warning"}) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ orderId = item.OrderId, productId = item.ProductId}, new {@class = "btn btn-primary"}) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */orderId = item.OrderId, productId = item.ProductId },new {@class = "btn btn-danger"})
             </td>
         </tr>
 }

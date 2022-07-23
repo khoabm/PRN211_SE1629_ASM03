@@ -1,27 +1,27 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .nav-link {
     color: black;
 }
 
-.nav-item{
+.nav-item {
     padding-left: 2rem;
 }
 
@@ -30,16 +30,42 @@ body {
     color: orange;
 }
 
-.short{
+.short {
     max-width: 5em;
     line-height: 1em;
     margin: 0;
 }
 
-.long-hr{
+.long-hr {
     width: 100%;
 }
 
 .form-item {
     margin-right: 11rem;
 }
+
+.border-black {
+    border: 1px solid #333;
+}
+
+.header-tag {
+    min-height: 80px;
+    align-content: center;
+    line-height: 80px;
+    font-size: 2.5rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+     transform-origin: left top;
+}
+
+    a:hover .header-tag {
+        background-color: #333;
+        color: #fff;
+        transition: ease-in-out 0.4s;
+    }

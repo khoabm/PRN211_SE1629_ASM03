@@ -44,15 +44,18 @@ namespace eStore.Controllers
         // POST: OrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Order order)
         {
             try
             {
+                if (ModelState.IsValid)
+                    _repository.AddOrder(order);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ViewBag.Message = ex.Message;
+                return View(order);
             }
         }
 
