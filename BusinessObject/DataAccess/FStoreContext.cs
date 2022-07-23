@@ -25,7 +25,7 @@ namespace BusinessObject.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=khoa;database=FStore");
+                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=123456789;database=FStore;TrustServerCertificate=True");
             }
         }
 
