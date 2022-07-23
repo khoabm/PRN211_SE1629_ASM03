@@ -123,7 +123,7 @@ namespace DataAccess
                 }
                 var query = (from mem in context.Members.ToList()
                              where mem.Email.Equals(email) && mem.Password.Equals(pass)
-                             select mem).SingleOrDefault();
+                             select mem).Single();
                 return query;
             }
             catch(Exception ex)

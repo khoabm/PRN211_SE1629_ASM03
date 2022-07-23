@@ -15,6 +15,7 @@ namespace DataAccess.Repository
         void DeleteOrder(Order order);
         Order GetOrderById(int id);
         void UpdateOrder(Order order);
+
         Dictionary<Order, double> GetOrdersByDate(DateTime start, DateTime end);
     }
 }

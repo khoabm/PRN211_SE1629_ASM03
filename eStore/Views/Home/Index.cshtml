@@ -1,8 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="container-md">
+<div class="text-center">
+    <h1>Hello @ViewBag.Member</h1>
+</div>
+ <div class="container-md">
     <div class="col">
         <a asp-controller="Member" asp-action="Index"><div class="col-md-12 border-black text-center my-5 header-tag"><i class="fas fa-users"></i> VIEW MEMBERS</div></a>
         @if (ViewBag.UserId == 0)
