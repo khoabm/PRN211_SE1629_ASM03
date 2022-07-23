@@ -62,32 +62,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MemberId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequiredDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShippedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Freight)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ id = item.OrderId }, new {@class = "btn btn-warning"}) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ id = item.OrderId}, new {@class = "btn btn-primary"}) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ id = item.OrderId}, new {@class = "btn btn-danger"})
-            </td>
-        </tr>
-}
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiredDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShippedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Freight)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ id = item.OrderId }, new {@class = "btn btn-warning"}) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ id = item.OrderId}, new {@class = "btn btn-primary"}) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ id = item.OrderId}, new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

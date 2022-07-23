@@ -16,18 +16,21 @@ namespace eStore.Controllers
         // GET: OrderController
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("user") == null)
+            int? memberID = (int?)HttpContext.Session.GetInt32("user");
+            var orders = _repository.GetOrders();
+            if (memberID == null)
             {
                 return RedirectToAction("Login", "Home");
             }
-            int memberID = (int)HttpContext.Session.GetInt32("user");
             if (memberID != 0)
             {
-                ViewBag.Error = "You don't have access to this action";
-                return View();
+                orders = orders.Where(o => o.MemberId == memberID);
+                return View(orders);
+                //ViewBag.Error = "You don't have access to this action";
+                //return View();
             }
             ViewBag.user = HttpContext.Session.GetInt32("user");
-            var orders = _repository.GetOrders();
+            
             return View(orders);
         }
 
@@ -59,6 +62,15 @@ namespace eStore.Controllers
         // GET: OrderController/Create
         public ActionResult Create()
         {
+            int? memberID = (int?)HttpContext.Session.GetInt32("user");
+            if (memberID == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if(HttpContext.Session.GetInt32("user") != 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View();
         }
 
@@ -83,6 +95,15 @@ namespace eStore.Controllers
         // GET: OrderController/Edit/5
         public ActionResult Edit(int id = 0)
         {
+            int? memberID = (int?)HttpContext.Session.GetInt32("user");
+            if (memberID == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (HttpContext.Session.GetInt32("user") != 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             if (id == 0)
                 return NotFound();
 
@@ -118,6 +139,15 @@ namespace eStore.Controllers
         // GET: OrderController/Delete/5
         public ActionResult Delete(int id = 0)
         {
+            int? memberID = (int?)HttpContext.Session.GetInt32("user");
+            if (memberID == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (HttpContext.Session.GetInt32("user") != 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             if (id == 0)
                 return NotFound();
             var order = _repository.GetOrderById(id);

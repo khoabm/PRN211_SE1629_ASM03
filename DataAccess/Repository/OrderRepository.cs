@@ -17,6 +17,8 @@ namespace DataAccess.Repository
 
         public Order GetOrderById(int id) => OrderDAO.Instance.GetOrderById(id);
 
+        public IEnumerable<Order>? GetOrderByMemberId(int id) => OrderDAO.Instance.GetOrderByMemberId(id);
+
         public IEnumerable<Order> GetOrders() => OrderDAO.Instance.GetOrders();
 
         public Dictionary<Order, double> GetOrdersByDate(DateTime start, DateTime end) => OrderDAO.Instance.GetOrdersByDate(start, end);

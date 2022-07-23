@@ -67,7 +67,22 @@ namespace DataAccess
             return order;
 
         }
+        public IEnumerable<Order>? GetOrderByMemberId(int id)
+        {
+            IEnumerable<Order>? order = null;
+            try
+            {
+                using FStoreContext context = new FStoreContext();
+                order = context.Orders.Where(o => o.MemberId == id);
+            }
+            catch (Exception ex)
+            {
 
+                throw new Exception(ex.Message);
+            }
+            return order;
+
+        }
         //CREATE ORDER
         public void CreateOrder(Order order)
         {

@@ -17,12 +17,8 @@ builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddSession();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-<<<<<<< HEAD
 builder.Services.AddSession();
 builder.Services.AddMvc();
-=======
-
->>>>>>> dd8440697b3152c8a627063e30999ffe863051e6
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
