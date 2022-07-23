@@ -7,10 +7,6 @@
 
 <h1>OrderDetails</h1>
 
-<p>
-    <a asp-action="Create" asp-controller="OrderDetail" asp-route-id="@Model.FirstOrDefault().OrderId">Create new</a>
-    @*@Html.ActionLink("Create", "Create","OrderDetail", new {id= @Model.FirstOrDefault().OrderId})*@
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -52,9 +48,9 @@
                     @Html.DisplayFor(modelItem => item.Discount)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit","OrderDetail", new {id = item.OrderId, productID=item.ProductId}) |
-                    @Html.ActionLink("Details", "Details", new {id = item.OrderId, productID=item.ProductId },null) |
-                    @Html.ActionLink("Delete", "Delete", new {id = item.OrderId, productID=item.ProductId})
+                    @Html.ActionLink("Edit", "Edit","OrderDetail", new {orderId = item.OrderId, productID=item.ProductId}) |
+                    @Html.ActionLink("Details", "Details", new {orderId = item.OrderId, productID=item.ProductId },null) |
+                    @Html.ActionLink("Delete", "Delete", new {orderId = item.OrderId, productID=item.ProductId})
                 </td>
             </tr>
         }

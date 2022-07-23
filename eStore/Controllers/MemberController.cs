@@ -145,14 +145,10 @@ namespace eStore.Controllers
         public int CheckLogin()
         {
             var session = HttpContext.Session.GetInt32("user");
-            if(session == null)
-            {
+            if (session == null)
                 return -1;
-            }
-            if(session != 0)
-            {
+            if (session != 0)
                 return 0;
-            }
             return 1;
         }
     }

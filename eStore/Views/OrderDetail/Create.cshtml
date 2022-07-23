@@ -8,6 +8,7 @@
 <h1>Create</h1>
 
 <h4>OrderDetail</h4>
+
 <h4>@ViewBag.Message</h4>
 <hr />
 <div class="row">
@@ -34,7 +35,6 @@
                 <input asp-for="Discount" class="form-control" />
                 <span asp-validation-for="Discount" class="text-danger"></span>
             </div>
-            <input hidden type="number" name="OrderId" value="@Model.OrderId"/>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -43,8 +43,9 @@
 </div>
 
 <div>
-    <a asp-action="OrderDetails" asp-controller="OrderDetail"
-        asp-route-id="@Model.OrderId">Back to List</a>
+
+    <a asp-action="Index">Back to List</a>
+
 </div>
 
 @section Scripts {
