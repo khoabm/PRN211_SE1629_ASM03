@@ -16,7 +16,13 @@ namespace eStore.Controllers
         // GET: MemberController
         public ActionResult Index()
         {
-            List<Member> members = _memberRepository.GetMembers().ToList();
+            
+            List<Member> members = new List<Member>();
+            if (HttpContext.Session.GetInt32("user") != null)
+            {
+                members = _memberRepository.GetMembers().ToList();
+            }
+            else return RedirectToAction("Login", "Home");
             return View(members);
         }
 
@@ -24,17 +30,25 @@ namespace eStore.Controllers
         public ActionResult Details(int id)
         {
             int loggedIn = CheckLogin();
-            if(loggedIn == -1)
+            if (loggedIn == -1)
             {
                 return RedirectToAction("Login", "Home");
             }
-            if (HttpContext.Session.GetInt32("user").Value != id)
+            else
             {
-                ViewBag.Error = "you can not see infor of other member";
-                return View();
+                if (loggedIn == 0)
+                {
+                    var member = _memberRepository.GetMemberById(id);
+                    if (member != null)
+                        return View(member);
+                    else return NotFound();
+                }
+                else
+                {
+                    ViewBag.Error = "you can not see information of other member";
+                    return RedirectToAction("Index", "Member");
+                }
             }
-            Member member = _memberRepository.GetMemberById(id);
-            return View(member);
         }
 
         // GET: MemberController/Create
@@ -43,11 +57,6 @@ namespace eStore.Controllers
             int loggedIn = CheckLogin();
             if (loggedIn == -1)
                 return RedirectToAction("Login", "Home");
-            if (loggedIn == 0)
-            {
-                ViewBag.Error = "You don't have access to this action";
-                return View();
-            }
             int memberID = _memberRepository.GetMembers().Max(m => m.MemberId) + 1;
             ViewData["id"] = memberID;
             return View();
@@ -77,19 +86,25 @@ namespace eStore.Controllers
         public ActionResult Edit(int id)
         {
             int loggedIn = CheckLogin();
-            if(loggedIn == -1)
+            if (loggedIn == -1)
             {
                 return RedirectToAction("Login", "Home");
             }
-            if(HttpContext.Session.GetInt32("user").Value != id)
+            else
             {
-                ViewBag.Error = "you can not see infor of other member";
-                return View();
+                if (loggedIn == 0)
+                {
+                    var member = _memberRepository.GetMemberById(id);
+                    if (member != null)
+                        return View(member);
+                    else return NotFound();
+                }
+                else
+                {
+                    ViewBag.Error = "you can not see information of other member";
+                    return RedirectToAction("Index", "Member");
+                }
             }
-            var member = _memberRepository.GetMemberById(id);
-            if (member != null)
-                return View(member);
-            else return NotFound();
         }
 
         // POST: MemberController/Edit/5
@@ -120,6 +135,16 @@ namespace eStore.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
+            int loggedIn = CheckLogin();
+            if (loggedIn == -1)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else if (loggedIn != 0)
+            {
+                ViewBag.Message = "you dont have this permission";
+                return RedirectToAction("Index", "Member");
+            }    
             var member = _memberRepository.GetMemberById(id);
             if (member != null)
                 return View(member);
@@ -135,7 +160,7 @@ namespace eStore.Controllers
             try
             {
                 _memberRepository.Delete(_memberRepository.GetMemberById(id));
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -146,10 +171,9 @@ namespace eStore.Controllers
         {
             var session = HttpContext.Session.GetInt32("user");
             if (session == null)
-                return -1;
-            if (session != 0)
-                return 0;
-            return 1;
+                return -1; //not logged in
+            else return (int)session; //return memberID
+            
         }
     }
 }
