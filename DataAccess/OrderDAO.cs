@@ -156,45 +156,42 @@ namespace DataAccess
             {
                 using FStoreContext context = new FStoreContext();
                 SqlConnection cnn = (SqlConnection)context.Database.GetDbConnection();
-                string SQL ="SELECT [Order]. *,x.Total FROM \n"
+                string SQL = "SELECT [Orders].*, x.Total FROM\n"
                     + "(SELECT DISTINCT OrderId, SUM(UnitPrice * Quantity * (1 - Discount)) as Total\n"
-                    + "FROM OrderDetail WHERE OrderDetail.OrderId IN (\n"
-                    + "SELECT OrderId FROM [Order] WHERE OrderDate Between @StartDate AND @EndDate)\n"
-                    + "GROUP BY OrderId) as x, [Order]\n"
-                    + "WHERE [Order].OrderId = x.OrderId\n" +
+                    + "FROM OrderDetails WHERE OrderDetails.OrderId IN (\n"
+                    + "SELECT OrderId FROM [Orders] WHERE OrderDate Between @StartDate AND @EndDate)\n"
+                    + "GROUP BY OrderId) as x, [Orders]\n"
+                    + "WHERE [Orders].OrderId = x.OrderId\n" +
                     "ORDER BY x.Total DESC";
                 SqlCommand cmd = new SqlCommand(SQL, cnn);
                 cmd.Parameters.AddWithValue("@StartDate", start);
                 cmd.Parameters.AddWithValue("@EndDate", end);
-                if(cnn.State == System.Data.ConnectionState.Closed)
-                {
+                if (cnn.State == ConnectionState.Closed)
                     cnn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.HasRows)
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.HasRows)
+                {
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        int _OrderID = reader.GetInt32(0);
+                        int _MemberID = reader.GetInt32(1);
+                        DateTime _OrderDate = reader.GetDateTime(2);
+                        DateTime _RequiredDate = reader.GetDateTime(3);
+                        DateTime _ShippedDate = reader.GetDateTime(4);
+                        decimal _Freight = reader.GetDecimal(5);
+                        double _TotalPrice = reader.GetDouble(6);
+                        Order order = new Order
                         {
-                            int _OrderID = reader.GetInt32(0);
-                            int _MemberID = reader.GetInt32(1);
-                            DateTime _OrderDate = reader.GetDateTime(2);
-                            DateTime _RequiredDate = reader.GetDateTime(3);
-                            DateTime _ShippedDate = reader.GetDateTime(4);
-                            decimal _Freight = reader.GetDecimal(5);
-                            double _TotalPrice = reader.GetDouble(6);
-                            Order order = new Order
-                            {
-                                OrderId = _OrderID,
-                                MemberId = _MemberID,
-                                OrderDate = _OrderDate,
-                                RequiredDate = _RequiredDate,
-                                ShippedDate = _ShippedDate,
-                                Freight = _Freight
-                            };
-                            dict.Add(order, _OrderID);
-
-                        }
-                        reader.NextResult();
+                            OrderId = _OrderID,
+                            MemberId = _MemberID,
+                            OrderDate = _OrderDate,
+                            RequiredDate = _RequiredDate,
+                            ShippedDate = _ShippedDate,
+                            Freight = _Freight
+                        };
+                        dict.Add(order, _TotalPrice);
                     }
+                    reader.NextResult();
                 }
             }
             catch (Exception ex)
