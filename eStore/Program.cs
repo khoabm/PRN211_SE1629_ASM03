@@ -14,6 +14,7 @@ builder.Services.AddDbContext<FStoreContext>(options => options.UseSqlServer(
 builder.Services.AddScoped(typeof(FStoreContext));
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 var app = builder.Build();
 
