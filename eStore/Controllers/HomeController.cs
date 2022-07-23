@@ -28,6 +28,7 @@ namespace eStore.Controllers
             {
                 ViewBag.Member = "Member";
             }
+            ViewBag.UserId = memberId;
             return View();
         }
 

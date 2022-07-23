@@ -30,7 +30,7 @@ namespace BusinessObject.DataAccess
             .Build();
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=khoa;database=FStore;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=123456789;database=FStore;TrustServerCertificate=True");
             }
         }
         public Member Admin()

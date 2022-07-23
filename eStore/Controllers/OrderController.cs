@@ -72,7 +72,7 @@ namespace eStore.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View();
-        }
+            }
 
         // POST: OrderController/Create
         [HttpPost]
